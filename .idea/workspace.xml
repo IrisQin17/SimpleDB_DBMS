@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9ab39344-2d46-41b8-9e57-3928fc847e37" name="Default Changelist" comment="" />
+    <list default="true" id="9ab39344-2d46-41b8-9e57-3928fc847e37" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeChecker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeFileEncoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeHeaderPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeInternalPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeLeafPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreePage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreePageId.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeRootPtrPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeScan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/BTreeUtility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/IndexDbIterator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/IndexPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/java/simpledb/Transaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test extra/simpledb/BTreeFileDeleteTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test extra/simpledb/systemtest/BTreeFileDeleteTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeFileInsertTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeFileReadTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeHeaderPageTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeInternalPageTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeLeafPageTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreePageIdTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/BTreeRootPtrPageTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/PredicateTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/systemtest/BTreeFileInsertTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/systemtest/BTreeScanTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/simpledb/systemtest/EvictionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,11 +45,15 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1i1nw6adczPy4wdr69VlxFEeXac" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/simpledb/systemtest" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -27,6 +61,15 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test/simpledb/systemtest" />
+      <recent name="$PROJECT_DIR$/test/simpledb" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/src/java/simpledb" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -137,11 +180,23 @@
       <workItem from="1601261421823" duration="1636000" />
       <workItem from="1601263299507" duration="372000" />
       <workItem from="1601756033784" duration="141000" />
-      <workItem from="1601756188573" duration="493000" />
+      <workItem from="1601756188573" duration="1047000" />
+      <workItem from="1601959642921" duration="386000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
