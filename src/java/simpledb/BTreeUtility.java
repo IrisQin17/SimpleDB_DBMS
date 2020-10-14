@@ -201,6 +201,7 @@ public class BTreeUtility {
 			}
 			tuples.add(tuple);
 		}
+
 	}
 	
 	/**
@@ -675,7 +676,7 @@ public class BTreeUtility {
 		/**
 		 * @param bf the B+ tree file into which we want to insert the tuple
 		 * @param tupdata the data of the tuple to insert
-		 * @param the list of tuples that were successfully inserted
+		 * @param insertedTuples the list of tuples that were successfully inserted
 		 */
 		public BTreeInserter(BTreeFile bf, int[] tupdata, BlockingQueue<ArrayList<Integer>> insertedTuples) {
 			init(bf, tupdata, insertedTuples);
@@ -762,7 +763,7 @@ public class BTreeUtility {
 
 		/**
 		 * @param bf the B+ tree file from which we want to delete the tuple(s)
-		 * @param the list of tuples to delete
+		 * @param insertedTuples the list of tuples to delete
 		 */
 		public BTreeDeleter(BTreeFile bf, BlockingQueue<ArrayList<Integer>> insertedTuples) {
 			init(bf, insertedTuples);

@@ -75,6 +75,8 @@ public class BTreeFileInsertTest extends SimpleDbTestBase {
 		
 		int totalTuples = page.getNumTuples() + otherPage.getNumTuples();
 		assertEquals(BTreeUtility.getNumTuplesPerPage(2), totalTuples);
+//		System.out.println(BTreeUtility.getNumTuplesPerPage(2)/2 + " " + page.getNumTuples());
+
 		assertTrue(BTreeUtility.getNumTuplesPerPage(2)/2 == page.getNumTuples() || 
 				BTreeUtility.getNumTuplesPerPage(2)/2 + 1 == page.getNumTuples());
 		assertTrue(BTreeUtility.getNumTuplesPerPage(2)/2 == otherPage.getNumTuples() || 

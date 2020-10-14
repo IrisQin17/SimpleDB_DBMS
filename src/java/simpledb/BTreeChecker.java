@@ -1,5 +1,7 @@
 package simpledb;
 
+import junit.framework.JUnit4TestAdapter;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -120,5 +122,6 @@ public class BTreeChecker {
             assert(false); // no other page types allowed inside the tree.
             return null;
         }
+
     }
 }

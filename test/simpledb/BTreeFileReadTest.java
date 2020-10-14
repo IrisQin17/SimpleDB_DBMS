@@ -3,6 +3,7 @@ package simpledb;
 import simpledb.systemtest.SimpleDbTestBase;
 import simpledb.Predicate.Op;
 
+import java.io.File;
 import java.util.*;
 
 import org.junit.After;
@@ -85,8 +86,14 @@ public class BTreeFileReadTest extends SimpleDbTestBase {
 
 	@Test
 	public void testIteratorBasic() throws Exception {
-		BTreeFile smallFile = BTreeUtility.createRandomBTreeFile(2, 3, null,
+//		BTreeFile smallFile = BTreeUtility.createRandomBTreeFile(2, 3, null,
+//				null, 0);
+		BTreeFile smallFile = BTreeUtility.createRandomBTreeFile(2, 520, null,
 				null, 0);
+
+//		System.out.println(smallFile.f.length() + " | " + BTreeRootPtrPage.getPageSize());
+
+
 
 		DbFileIterator it = smallFile.iterator(tid);
 		// Not open yet
@@ -103,7 +110,8 @@ public class BTreeFileReadTest extends SimpleDbTestBase {
 			assertNotNull(it.next());
 			count += 1;
 		}
-		assertEquals(3, count);
+//		assertEquals(3, count);
+		assertEquals(520, count);
 		it.close();
 	}
 
@@ -136,6 +144,7 @@ public class BTreeFileReadTest extends SimpleDbTestBase {
 	@Test public void indexIterator() throws Exception {
 		BTreeFile twoLeafPageFile = BTreeUtility.createBTreeFile(2, 520,
 				null, null, 0);
+
 		Field f =  new IntField(5);
 
 		// greater than
