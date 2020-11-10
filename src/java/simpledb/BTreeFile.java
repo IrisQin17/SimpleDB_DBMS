@@ -796,7 +796,7 @@ public class BTreeFile implements DbFile {
 		BTreePageId leftChildId = page.reverseIterator().next().getRightChild();
 		BTreePageId rightChildId = rightSibling.iterator().next().getLeftChild();
 
-		// copy the paren entry to the page
+		// copy the parent entry to the page
 		page.insertEntry(new BTreeEntry(parentEntry.getKey(), leftChildId,rightChildId));
 
 		// move entries from right sibling to the page
