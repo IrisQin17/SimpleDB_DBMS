@@ -92,6 +92,14 @@ public class HeapFile implements DbFile {
     public void writePage(Page page) throws IOException {
         // some code goes here
         // not necessary for lab1
+        HeapPageId id = (HeapPageId) page.getId();
+        try (RandomAccessFile raf = new RandomAccessFile(getFile(), "rw")) {
+            int offset = page.getId().pageNumber() * BufferPool.getPageSize();
+            raf.seek(offset);
+            raf.write(page.getPageData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -102,20 +110,70 @@ public class HeapFile implements DbFile {
         return (int)f.length() / BufferPool.getPageSize();
     }
 
-    // see DbFile.java for javadocs
-    public ArrayList<Page> insertTuple(TransactionId tid, Tuple t)
-            throws DbException, IOException, TransactionAbortedException {
+    /**
+     * Inserts the specified tuple to the file on behalf of transaction.
+     * This method will acquire a lock on the affected pages of the file, and
+     * may block until the lock can be acquired.
+     *
+     * @param tid The transaction performing the update
+     * @param t The tuple to add.  This tuple should be updated to reflect that
+     *          it is now stored in this file.
+     * @return An ArrayList contain the pages that were modified
+     * @throws DbException if the tuple cannot be added
+     * @throws IOException if the needed file can't be read/written
+     */
+    public ArrayList<Page> insertTuple(TransactionId tid, Tuple t) throws DbException, IOException, TransactionAbortedException {
         // some code goes here
-        return null;
         // not necessary for lab1
+        boolean isFull = true;
+        HeapPage heapPage = null;
+        ArrayList<Page> modifiedPages = new ArrayList<>();
+        for (int i = 0; i < numPages(); i++) {
+            heapPage = (HeapPage) Database.getBufferPool().getPage(tid, new HeapPageId(getId(), i), Permissions.READ_ONLY);
+            if (heapPage.getNumEmptySlots() > 0) {  // find empty page and insert tuple
+                isFull = false;
+                break;
+            }
+        }
+        if (isFull) {
+            heapPage = new HeapPage(new HeapPageId(getId(), numPages()), HeapPage.createEmptyPageData());
+            writePage(heapPage);        // write into disk
+        }
+        heapPage = (HeapPage) Database.getBufferPool().getPage(tid, heapPage.getId(), Permissions.READ_WRITE);
+        heapPage.insertTuple(t);
+//        heapPage.markDirty(true, tid);
+        modifiedPages.add(heapPage);
+        return modifiedPages;
     }
 
-    // see DbFile.java for javadocs
-    public ArrayList<Page> deleteTuple(TransactionId tid, Tuple t) throws DbException,
-            TransactionAbortedException {
+    /**
+     * Removes the specified tuple from the file on behalf of the specified
+     * transaction.
+     * This method will acquire a lock on the affected pages of the file, and
+     * may block until the lock can be acquired.
+     *
+     * @param tid The transaction performing the update
+     * @param t The tuple to delete.  This tuple should be updated to reflect that
+     *          it is no longer stored on any page.
+     * @return An ArrayList contain the pages that were modified
+     * @throws DbException if the tuple cannot be deleted or is not a member
+     *   of the file
+     */
+    public ArrayList<Page> deleteTuple(TransactionId tid, Tuple t) throws DbException, TransactionAbortedException {
         // some code goes here
-        return null;
         // not necessary for lab1
+        ArrayList<Page> modifiedPages = new ArrayList<>();
+        PageId pid = t.getRecordId().getPageId();
+        for (int i = 0; i < numPages(); i++) {
+            if (i == pid.pageNumber()) {
+                HeapPage page = (HeapPage) Database.getBufferPool().getPage(tid, pid, Permissions.READ_WRITE);
+                page.deleteTuple(t);
+//                page.markDirty(true, tid);
+                modifiedPages.add(page);
+                return modifiedPages;
+            }
+        }
+        throw new DbException("the tuple cannot be deleted or is not a member of the file!");
     }
 
     /**

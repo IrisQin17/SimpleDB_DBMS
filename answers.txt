@@ -1,16 +1,22 @@
 Writeup         Bowen Qin, U32803059
 
 1. The design decisions I made are these:
-In BufferPool class, I chose ConcurrentHashMap data structure to record the pages since it is thread-safe. My eviction policy is using a random generator to randomly evict one page.
+Join & HashEquiJoin: nested loops join implementation. I used a global variable t1 to keep track of child1's tuple. Compare current t1 with child2's tuples in fetchNext(). If they pass the filter, return the combining tuple. Next comparison is based on the global variable and iterator.
 
+Aggregator: used HashMap<Field, Integer> to record aggregated value for each field, and use merge function of HashMap to merge the result for each operations.
 
+HeapFile:
+- insertTuple: First find an empty page. If full, write new empty page into disk. Then insert tuple into the page.
+- deleteTuple: Iterate pages in the heapFile and match their PageID with the tuple's one. If find the page, delete the tuple on it.
 
-In Catalog class, I created a private Table class to help manage the attributes.
-In HeapPageId and RecordId class, I chose a prime number and use it to calculate the hashcode.
-For other classes, I basically followed the instructions.
+BufferPool:
+- insertTuple: First insert tuple and get dirtyPages. Mark them dirty and update them in the HashMap I used to record all pages. If full, evictPage first before add new page into it.
+- deleteTuple: First delete tuple and get dirtyPages. Mark them dirty and update them in the HashMap I used to record all pages. If full, evictPage first before add new page into it.
+
+Insert & Delete: I use a Tuple global variable to record the result of fetchNext(). If the variable is not null, it means that fetchNext() has been called.
 
 2. No changes to the API.
 
 3. Completed all required code blocks, passed all unit tests.
 
-4. Took about 24 hours to finish. The relations and IDs of tuple, page, file, table were confusing at first, but became clear along the coding.
+4. Took about 20 hours to finish.

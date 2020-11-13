@@ -1,11 +1,20 @@
 package simpledb;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+
 /**
  * Knows how to compute some aggregate over a set of StringFields.
  */
 public class StringAggregator implements Aggregator {
 
     private static final long serialVersionUID = 1L;
+    private final int gbfield;
+    private final Type gbfieldtype;
+    private final int afield;
+    private final Op op;
+    private HashMap<Field, Integer> aggVals;
 
     /**
      * Aggregate constructor
@@ -18,6 +27,14 @@ public class StringAggregator implements Aggregator {
 
     public StringAggregator(int gbfield, Type gbfieldtype, int afield, Op what) {
         // some code goes here
+        if (what != Op.COUNT) {
+            throw new IllegalArgumentException();
+        }
+        this.gbfield = gbfield;
+        this.gbfieldtype = gbfieldtype;
+        this.afield = afield;
+        op = what;
+        aggVals = new HashMap<>();
     }
 
     /**
@@ -26,6 +43,8 @@ public class StringAggregator implements Aggregator {
      */
     public void mergeTupleIntoGroup(Tuple tup) {
         // some code goes here
+        Field groupfield = (gbfield == Aggregator.NO_GROUPING) ? null : tup.getField(gbfield);
+        aggVals.merge(groupfield, 1, (oldCount, val) -> oldCount + 1);
     }
 
     /**
@@ -38,7 +57,66 @@ public class StringAggregator implements Aggregator {
      */
     public DbIterator iterator() {
         // some code goes here
-        throw new UnsupportedOperationException("please implement me for lab3");
+        return new DbIterator() {
+            private final TupleDesc td = (gbfield == Aggregator.NO_GROUPING) ?
+                    new TupleDesc(new Type[]{Type.INT_TYPE}) : new TupleDesc(new Type[]{gbfieldtype, Type.INT_TYPE});
+
+            private boolean open;
+            private Tuple[] tuples;
+            private int currentIdx = 0;
+
+            @Override
+            public void open() throws DbException, TransactionAbortedException {
+                open = true;
+                tuples = new Tuple[aggVals.size()];
+                if (gbfield == Aggregator.NO_GROUPING) {
+                    tuples[0] = new Tuple(td);
+                    tuples[0].setField(0, new IntField(aggVals.get(null)));
+                } else {
+                    int i = 0;
+                    for (Map.Entry<Field, Integer> entry : aggVals.entrySet()) {
+
+                        tuples[i] = new Tuple(td);
+                        tuples[i].setField(0, entry.getKey());
+                        tuples[i].setField(1, new IntField(entry.getValue()));
+                        i++;
+                    }
+                }
+            }
+
+            @Override
+            public boolean hasNext() throws DbException, TransactionAbortedException {
+                if (open)
+                    return currentIdx < tuples.length;
+                throw new IllegalStateException("Operator not yet open");
+            }
+
+            @Override
+            public Tuple next() throws DbException, TransactionAbortedException, NoSuchElementException {
+                if (open)
+                    if (currentIdx < tuples.length)
+                        return tuples[currentIdx++];
+                    else
+                        throw new NoSuchElementException();
+                throw new IllegalStateException("Operator not yet open");
+            }
+
+            @Override
+            public void rewind() throws DbException, TransactionAbortedException {
+                if (open)
+                    currentIdx = 0;
+            }
+
+            @Override
+            public TupleDesc getTupleDesc() {
+                return td;
+            }
+
+            @Override
+            public void close() {
+                open = false;
+            }
+        };
     }
 
 }
